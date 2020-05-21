@@ -7,36 +7,32 @@ namespace Guild
 {
     public class Guild
     {
-        private List<Player> players;
+        private List<Player> roster;
 
         public Guild(string name, int capacity)
         {
-            this.players = new List<Player>();
+            this.roster = new List<Player>();
             this.Name = name;
             this.Capacity = capacity;
         }
         public string Name { get; set; }
         public int Capacity { get; set; }
-
-        public int Count
-        {
-            get { return this.players.Count; }
-        }
-
+        public int Count => this.roster.Count();
+        
         public void AddPlayer(Player player)
         {
-            if (players.Count < this.Capacity && !players.Any(x => x.Name == player.Name))
+            if (roster.Count < this.Capacity)
             {
-                this.players.Add(player);
+                this.roster.Add(player);
             }
         }
 
         public bool RemovePlayer(string name)
         {
-            if (players.Any(x => x.Name == name))
+            if (roster.Any(x => x.Name == name))
             {
-                Player temp = players.Where(x => x.Name == name).FirstOrDefault();
-                players.Remove(temp);
+                Player temp = roster.Where(x => x.Name == name).FirstOrDefault();
+                roster.Remove(temp);
                 return true;
             }
 
@@ -45,9 +41,9 @@ namespace Guild
 
         public void PromotePlayer(string name)
         {
-            if (players.Any(x => x.Name == name))
+            if (roster.Any(x => x.Name == name))
             {
-                Player temp = players.Where(x => x.Name == name).FirstOrDefault();
+                Player temp = roster.Where(x => x.Name == name).FirstOrDefault();
 
                 temp.Rank = "Member";
             }
@@ -55,9 +51,9 @@ namespace Guild
 
         public void DemotePlayer(string name)
         {
-            if (players.Any(x => x.Name == name))
+            if (roster.Any(x => x.Name == name))
             {
-                Player temp = players.Where(x => x.Name == name).FirstOrDefault();
+                Player temp = roster.Where(x => x.Name == name).FirstOrDefault();
 
                 temp.Rank = "Trial";
             }
@@ -67,7 +63,7 @@ namespace Guild
         {
             List<Player> tempList = new List<Player>();
 
-            foreach (var player in this.players)
+            foreach (var player in this.roster)
             {
                 if (player.Class == @class)
                 {
@@ -77,7 +73,7 @@ namespace Guild
 
             Player[] arrayToReturn = tempList.ToArray();
 
-            this.players = this.players.Where(x => x.Class != @class).ToList();
+            this.roster = this.roster.Where(x => x.Class != @class).ToList();
 
             return arrayToReturn;
         }
@@ -88,7 +84,7 @@ namespace Guild
 
             returnInfo.AppendLine($"Players in the guild: {this.Name}");
 
-            foreach (var player in this.players)
+            foreach (var player in this.roster)
             {
                 returnInfo.AppendLine($"Player {player.Name}: {player.Class}");
                 returnInfo.AppendLine($"Rank: {player.Rank}");

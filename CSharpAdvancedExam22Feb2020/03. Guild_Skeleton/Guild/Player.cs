@@ -11,14 +11,12 @@ namespace Guild
         {
             this.Name = name;
             this.Class = @class;
-            this.Rank = "Trail";
-            this.Description = "n/a";
         }
 
         public string Name { get; set; }
         public string Class { get; set; }
-        public string Rank { get; set; }
-        public string Description { get; set; }
+        public string Rank { get; set; } = "Trail";
+        public string Description { get; set; } = "n/a";
 
         public override string ToString()
         {
